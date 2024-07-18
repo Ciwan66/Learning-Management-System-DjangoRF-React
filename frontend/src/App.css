@@ -1,0 +1,30 @@
+
+
+
+
+/* ===== Fonts ==== */
+@font-face {
+    font-family: Nova;
+    src: url("../public/fonts/Proxima-Nova-Font.otf");
+    font-weight: 500;
+}
+ @font-face {
+    font-family: Oswald;
+    src: url("../public/fonts/Oswald-Light.ttf");
+    font-weight: 300;
+}/*
+@font-face {
+    font-family: Oswald;
+    src: url("../public/fonts/Oswald-Regular.ttf");
+    font-weight: 400;
+}
+@font-face {
+    font-family: Oswald;
+    src: url("../public/fonts/Oswald-Medium.ttf");
+    font-weight: 500;
+}
+@font-face {
+    font-family: Oswald;
+    src: url("../public/fonts/Oswald-Bold.ttf");
+    font-weight: 600;
+} */
