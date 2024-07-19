@@ -4,8 +4,18 @@
 
 /* ===== Fonts ==== */
 @font-face {
+    font-family: sans;
+    src: url("../fonts/DMSans_18pt-Bold.ttf");
+    font-weight: 700;
+}
+@font-face {
+    font-family: sans;
+    src: url("../fonts/DMSans_18pt-Regular.ttf");
+    font-weight: 500;
+}
+@font-face {
     font-family: Nova;
-    src: url("../public/fonts/Proxima-Nova-Font.otf");
+    src: url("../fonts/Proxima-Nova-Font.otf");
     font-weight: 500;
 }
  @font-face {

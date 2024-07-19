@@ -13,13 +13,16 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.16.1",
+    "@mui/joy": "^5.0.0-beta.48",
     "@mui/material": "^5.16.1",
     "axios": "^1.7.2",
     "dayjs": "^1.11.11",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
+    "react-carousel-mui": "^1.0.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.1",
+    "react-multi-carousel": "^2.8.5",
     "react-router-dom": "^6.25.0"
   },
   "devDependencies": {

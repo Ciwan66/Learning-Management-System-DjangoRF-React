@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser 
 from .managers import CustomUserManager
+import uuid
 
 
 class CustomUser(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     email = models.EmailField(unique=True,max_length=254)
     username = None
     is_student = models.BooleanField(default=False)

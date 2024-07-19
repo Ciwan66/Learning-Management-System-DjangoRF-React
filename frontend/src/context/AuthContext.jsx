@@ -22,7 +22,7 @@ export const AuthProvider =({ children })=> {
   const navigate = useNavigate();
 
   const loginUser = async (email, password) => {
-    const response = await fetch("http://127.0.0.1:8000/api/users/token/", {
+    const response = await fetch("http://127.0.0.1:8000/api/user/token/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,19 +54,19 @@ export const AuthProvider =({ children })=> {
       password
     ) => {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/users/register/",
+        "http://127.0.0.1:8000/api/user/register/",
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":"application/json",
           },
           body: JSON.stringify(
-            first_name,
+           { first_name,
             last_name,
             email,
             is_student,
             is_teacher,
-            password
+            password}
           ),
         }
       );

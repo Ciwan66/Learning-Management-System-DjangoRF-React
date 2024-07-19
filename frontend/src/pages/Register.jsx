@@ -5,11 +5,15 @@ import MyTextField from "../components/mui/MyTextField";
 import { useForm } from "react-hook-form";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
-
+import AuthContext from "../context/AuthContext";
+import { useContext } from "react";
 function Register() {
   const { handleSubmit, control } = useForm();
+  const {registerUser} = useContext(AuthContext)
   const SubmitForm = (data) => {
-    console.log(data);
+    const is_student = true
+    const is_teacher = false
+    registerUser(data.first_name, data.last_name, data.email,is_student,is_teacher,data.password)
   };
   return (
     <Box

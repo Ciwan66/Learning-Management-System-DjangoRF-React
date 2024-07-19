@@ -24,7 +24,7 @@ function App() {
       },
     },
     typography: {
-      "fontFamily": "Nova",
+      "fontFamily": "sans",
  
      }
   });

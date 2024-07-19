@@ -158,47 +158,51 @@ export default function Navbar({ children }) {
       </MenuItem>
     </Menu>
   );
-  const handleLogout=()=>{
-    logoutUser()
-  }
+  const handleLogout = () => {
+    logoutUser();
+  };
 
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Box sx={{ flexGrow: 1, height: "70px" }}>
+        <Box sx={{ flexGrow: 1 }}>
           <AppBar
             position="static"
             sx={{
               color: "black",
               backgroundColor: "#FFF",
-              boxShadow:
-                "0 2px 4px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.08)",
-              height: "75px",
+              boxShadow: 4,
+              height: "80px",
               display: "flex",
               justifyContent: "center",
+              outline: "rgp(255,0,0) dashed 1px",
             }}
           >
             <Toolbar>
-              <Typography
-                variant="h5"
-                noWrap
-                component={Link}
-                to="/"
-                sx={{
-                  display: {
-                    xs: "none",
-                    sm: "block",
-                    fontWeight: "bold",
-                    boxShadow: "none",
-                    textDecoration: "none",
-                    color: "black",
-                  },
-                }}
-              >
-                Udemy
-              </Typography>
+              <Box sx={{width:"6%"}}>
+                <Typography
+                  variant="h5"
+                  noWrap
+                  component={Link}
+                  to="/"
+                  sx={{
+                    display: {
+                      fontSize: "34px",
 
-              <Box sx={{ ml: 2 }}>
+                      xs: "none",
+                      sm: "block",
+                      fontWeight: "bold",
+                      boxShadow: "none",
+                      textDecoration: "none",
+                      color: "black",
+                    },
+                  }}
+                >
+                  udemy
+                </Typography>
+              </Box>
+
+              <Box sx={{ ml:"12px" }}>
                 {" "}
                 <Typography
                   noWrap
@@ -217,7 +221,7 @@ export default function Navbar({ children }) {
 
               <Box
                 sx={{
-                  width: "1050px",
+                  width: "1400px",
                   height: "60px",
                   display: "inline-grid",
                   alignItems: "center",
@@ -227,8 +231,8 @@ export default function Navbar({ children }) {
                 <Search
                   sx={{
                     border: "1px solid black",
-                    borderRadius: "20px",
-                    height: "45px",
+                    borderRadius: "25px",
+                    height: "50px",
                     display: "flex",
                   }}
                 >
@@ -288,9 +292,7 @@ export default function Navbar({ children }) {
                     <Box sx={{ mr: 3 }}>
                       <Button
                         variant="outlined"
-                        onClick={
-                          handleLogout
-                        }
+                        onClick={handleLogout}
                         sx={{
                           height: "45px",
                           width: "100px",
