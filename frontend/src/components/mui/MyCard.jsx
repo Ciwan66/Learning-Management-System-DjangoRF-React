@@ -5,48 +5,67 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import StarIcon from "@mui/icons-material/Star";
-import IconButton from "@mui/material/IconButton";
-
-export default function MyCard() {
+import Rating from "@mui/material/Rating";
+import { Link } from "react-router-dom";
+export default function MyCard(props) {
+  const { id, title, img, average_rating, num_ratings, price, author } = props;
   return (
-    <Card color="primary" variant="variant" sx={{ maxWidth: 260 }}>
-      <CardActionArea >
+    <Card color="primary" variant="variant" sx={{ maxWidth: 240 }}>
+      <CardActionArea component={Link} to={`/course/detail/${id}/`}>
         <CardMedia
           component="img"
           height="160"
           image="https://mui.com/static/images/cards/paella.jpg"
           alt="altimage"
-          sx={{mb:1}}        />
+          sx={{ mb: 1 }}
+        />
         <CardContent sx={{ p: 0 }}>
           <Typography
             gutterBottom
-            sx={{fontWeight: '700', p: 0, lineHeight: 1 }}
+            sx={{
+              fontWeight: "600",
+              p: 0,
+              lineHeight: 1.2,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+            }}
           >
-            100 Days of Code: The Complete Python Pro Bootcamp
+            {title}
           </Typography>
-          <Typography variant="body2" noWrap color="text.secondary" sx={{ mb: 1 ,mt:1,lineHeight: 1 }}>
-            Dr. Angela Yu, Developer and Lead Instructor{" "}
+          <Typography
+            variant="body2"
+            noWrap
+            color="text.secondary"
+            sx={{ mb: 1, mt: 1, lineHeight: 1 }}
+          >
+            {author}
           </Typography>
           <Box display="flex" alignItems="center" sx={{ mb: 1 }}>
-          <StarIcon sx={{ color: "gold", fontSize: 16 }} />
-            <StarIcon sx={{ color: "gold", fontSize: 16 }} />
-            <StarIcon sx={{ color: "gold", fontSize: 16 }} />
-            <Typography
+          <Typography
               variant="body2"
               color="text.primary"
               sx={{ fontWeight: 600, mr: 0.5 }}
             >
-              {"(309,808) "}
+              {average_rating}
             </Typography>
-         
+            <Rating name="read-only" value={average_rating} readOnly sx={{fontSize:"16px"}} />
+
+            <Typography
+              variant="body2"
+              color="text.primary"
+              sx={{ fontWeight: 600, ml: 0.5 }}
+            >
+              {num_ratings}
+            </Typography>
           </Box>
           <Typography
-            variant="h6"
             color="text.primary"
             sx={{ fontWeight: 600 }}
           >
-            $10
+            ${price}
           </Typography>
         </CardContent>
       </CardActionArea>

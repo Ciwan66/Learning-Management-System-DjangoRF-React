@@ -32,3 +32,13 @@ class CourseListAPIView(generics.ListAPIView):
     def get_queryset(self):
         qureyset = api_models.Course.objects.all()
         return qureyset
+    
+class CourseDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = api_serializers.CourseDetailSerializer
+    permission_classes = [AllowAny]
+
+
+    def get_object(self):
+        course_id = self.kwargs['course_id']
+        course = api_models.Course.objects.get(id=course_id)
+        return course

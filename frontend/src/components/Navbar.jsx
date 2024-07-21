@@ -19,6 +19,8 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -172,14 +174,14 @@ export default function Navbar({ children }) {
               color: "black",
               backgroundColor: "#FFF",
               boxShadow: 4,
-              height: "80px",
+              height: "70px",
               display: "flex",
               justifyContent: "center",
               outline: "rgp(255,0,0) dashed 1px",
             }}
           >
             <Toolbar>
-              <Box sx={{width:"6%"}}>
+              <Box sx={{ width: "6%" }}>
                 <Typography
                   variant="h5"
                   noWrap
@@ -187,7 +189,7 @@ export default function Navbar({ children }) {
                   to="/"
                   sx={{
                     display: {
-                      fontSize: "34px",
+                      fontSize: "28px",
 
                       xs: "none",
                       sm: "block",
@@ -202,7 +204,7 @@ export default function Navbar({ children }) {
                 </Typography>
               </Box>
 
-              <Box sx={{ ml:"12px" }}>
+              <Box sx={{ ml: "14px" }}>
                 {" "}
                 <Typography
                   noWrap
@@ -210,7 +212,7 @@ export default function Navbar({ children }) {
                   sx={{
                     display: {
                       fontWeight: "200",
-                      fontSize: "15px",
+                      fontSize: "14px",
                       color: "#2d2f31",
                     },
                   }}
@@ -221,7 +223,7 @@ export default function Navbar({ children }) {
 
               <Box
                 sx={{
-                  width: "1400px",
+                  width: "1240px",
                   height: "60px",
                   display: "inline-grid",
                   alignItems: "center",
@@ -232,16 +234,17 @@ export default function Navbar({ children }) {
                   sx={{
                     border: "1px solid black",
                     borderRadius: "25px",
-                    height: "50px",
+                    height: "45px",
                     display: "flex",
                   }}
                 >
                   <SearchIconWrapper>
-                    <SearchIcon />
+                    <SearchIcon sx={{ color: "#2d2f31" }} />
                   </SearchIconWrapper>
                   <StyledInputBase
                     placeholder="Search for anything"
                     inputProps={{ "aria-label": "search" }}
+                    sx={{ fontSize: "14px" }}
                   />
                 </Search>
               </Box>
@@ -251,11 +254,11 @@ export default function Navbar({ children }) {
                   display: "flex",
                   alignItems: "center",
                   width: "30%",
-                  justifyContent: "space-around",
+                  justifyContent: "space-between",
                 }}
               >
                 {" "}
-                <Box sx={{ ml: 2 }}>
+                <Box sx={{}}>
                   {" "}
                   <Typography
                     noWrap
@@ -265,7 +268,7 @@ export default function Navbar({ children }) {
                     sx={{
                       display: {
                         fontWeight: "200",
-                        fontSize: "15px",
+                        fontSize: "13px",
                         textDecoration: "none",
                         boxShadow: "none",
                         color: "#2d2f31",
@@ -275,7 +278,7 @@ export default function Navbar({ children }) {
                     Teach on Udemy
                   </Typography>
                 </Box>
-                <Box sx={{ m: 3 }}>
+                <Box sx={{}}>
                   <IconButton
                     size="large"
                     edge="end"
@@ -294,9 +297,10 @@ export default function Navbar({ children }) {
                         variant="outlined"
                         onClick={handleLogout}
                         sx={{
-                          height: "45px",
-                          width: "100px",
-                          fontSize: "18px",
+                          height: "40px",
+                          width: "80px",
+                          fontSize: "14px",
+                          borderRadius: "0px",
                         }}
                       >
                         Logout
@@ -305,27 +309,31 @@ export default function Navbar({ children }) {
                   </Box>
                 ) : (
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Box sx={{ mr: 3 }}>
+                    <Box sx={{ mr: 1 }}>
                       <Button
                         variant="outlined"
                         sx={{
-                          height: "45px",
-                          width: "100px",
-                          fontSize: "16px",
+                          height: "40px",
+                          width: "80px",
+                          fontSize: "14px",
+                          borderRadius: "0px",
+                          fontWeight: "600",
                         }}
                         component={Link}
                         to="/login"
                       >
-                        Login
+                        Log in
                       </Button>
                     </Box>
                     <Box>
                       <Button
                         variant="contained"
                         sx={{
-                          height: "45px",
-                          width: "100px",
-                          fontSize: "14px",
+                          height: "40px",
+                          width: "80px",
+                          fontSize: "13px",
+                          borderRadius: "0px",
+                          fontWeight: "600",
                         }}
                         component={Link}
                         to="/register"
@@ -336,7 +344,7 @@ export default function Navbar({ children }) {
                   </Box>
                 )}
               </Box>
-              <Box sx={{ flexGrow: 1 }} />
+              <Box sx={{ flexGrow: 1, }} />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 <IconButton
                   size="large"
@@ -346,11 +354,12 @@ export default function Navbar({ children }) {
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                   color="inherit"
+                  sx={{border:1,borderRadius:0,p:0.9}}
                 >
                   <AccountCircle />
                 </IconButton>
               </Box>
-              <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <Box sx={{ display: { xs: "flex", md: "none" ,} }}>
                 <IconButton
                   size="large"
                   aria-label="show more"
@@ -368,7 +377,7 @@ export default function Navbar({ children }) {
           {renderMenu}
         </Box>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>{children}</Box>
+      <Box sx={{}}>{children}</Box>
     </>
   );
 }

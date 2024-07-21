@@ -12,6 +12,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from './utils/PrivateRoute'
 import StudentPrivateRoute from './utils/StudentPrivateRoute'
 import TeacherPrivateRoute from './utils/TeacherPrivateRoute'
+import CourseDetail from "./pages/CourseDetail";
 function App() {
   const theme = createTheme({
     palette: {
@@ -24,7 +25,16 @@ function App() {
       },
     },
     typography: {
-      "fontFamily": "sans",
+      "fontFamily": "arial",
+      text:{
+        primary: "#2D2F31"
+      },
+      button: {
+        textTransform: 'none',
+        fontWeight:700,
+        fontSize:'16px',
+      }
+      
  
      }
   });
@@ -37,6 +47,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Home />} />
+          <Route path="/course/detail/:course_id" element={<CourseDetail/>} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

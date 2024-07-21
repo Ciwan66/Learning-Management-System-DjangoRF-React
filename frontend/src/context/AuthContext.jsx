@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider =({ children })=> {
-  const [authTokens, setauthTokens] = useState(() => 
+  const [authTokens, setAuthTokens] = useState(() => 
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
@@ -36,7 +36,7 @@ export const AuthProvider =({ children })=> {
     console.log(data);
     if (response.status === 200) {
       console.log("Logged In");
-      setauthTokens(data);
+      setAuthTokens(data);
       setUser(jwtDecode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
       navigate("/");
@@ -80,7 +80,7 @@ export const AuthProvider =({ children })=> {
       }
     };
     const logoutUser = () => {
-      setauthTokens(null);
+      setAuthTokens(null);
       localStorage.removeItem("authTokens");
       setUser(null);
       navigate("/login");
@@ -89,7 +89,7 @@ export const AuthProvider =({ children })=> {
       user,
       setUser,
       authTokens,
-      setauthTokens,
+      setAuthTokens,
       loginUser,
       registerUser,
       logoutUser,

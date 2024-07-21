@@ -1,4 +1,4 @@
-import React , {useEffect}from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
@@ -8,9 +8,11 @@ import { deepPurple } from "@mui/material/colors";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import MyCard from "../components/mui/MyCard";
-import useAxios from '../utils/useAxios'
+import useAxios from "../utils/useAxios";
+import apiInstance from "../utils/axios";
+
 function Home() {
-  const axiosInstance = useAxios()
+  const axiosInstance = useAxios();
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -28,32 +30,41 @@ function Home() {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
+  const [courses, setCourses] = useState([]);
+  const GetData = async () => {
+    try {
+      const response = await apiInstance.get("/course/list/");
+      console.log(response);
+      setCourses(response.data);
+    } catch(error){
+      console.error("Error fetching data:", error)
+    }
 
-  const GetData = async ()=>{
-    const response = await axiosInstance.get('/course/list/');
-    console.log(response)
-  }
-  useEffect(()=>{
-    GetData()
-  },[])
+  };
+  useEffect(() => {
+    GetData();
+  }, []);
   const { user } = useContext(AuthContext);
   return (
+    <Box sx={{display: "flex", justifyContent: "center"}}>
+
     <Box
       sx={{
-        width: "69%",
+        
+        width: "72%",
         height: "100vh",
         display: "flex",
         flexDirection: "column",
-        pt: 3,
+        mt:3
       }}
     >
       {user ? (
         <Box sx={{ p: "32px", display: "flex" }}>
-          <Avatar sx={{ bgcolor: deepPurple[500], width: 64, height: 64 }}>
+          <Avatar sx={{ bgcolor: deepPurple[500], width: 64, height: 64,mt:0.2 }}>
             JH
           </Avatar>
           <Typography sx={{ ml: 3, fontSize: "24px", fontWeight: "bold" }}>
-            Welcome, {user.first_name}
+          Welcome back,  {user.first_name}
           </Typography>
         </Box>
       ) : null}
@@ -73,9 +84,9 @@ function Home() {
               justifyContent: "space-between",
             }}
           >
-            <Box sx={{mb:2}}>
+            <Box sx={{ mb: 2 ,pl:2}}>
               {" "}
-              <Typography sx={{ fontSize: "36px", fontWeight: "600" }}>
+              <Typography sx={{ fontSize: "32px", fontWeight: "600" }}>
                 Learners are viewing
               </Typography>
             </Box>
@@ -86,19 +97,27 @@ function Home() {
               </Typography>
             </Box> */}
           </Box>
-          <Box>
+          <Box sx={{p:2}}>
             <Carousel responsive={responsive}>
-              <MyCard />
-              <MyCard />
-              <MyCard />
-              <MyCard />
-              <MyCard />
-              <MyCard />
+              {courses?.map((c, index) => (
+                <MyCard
+                  title={c.title}
+                  author={`${c.author.first_name} ${c.author.last_name}`}
+                  img={c.img}
+                  id={c.id}
+                  average_rating={c.average_rating}
+                  num_ratings={c.num_ratings}
+                  price={c.price}
+                  key = {index}
+                />
+              ))}
             </Carousel>
           </Box>
         </Box>
       </Box>
     </Box>
+    </Box>
+
   );
 }
 

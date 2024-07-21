@@ -42,7 +42,7 @@ class CourseListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields =['title','img','average_rating','num_ratings','price','author']
+        fields =['id','title','img','average_rating','num_ratings','price','author']
         depth=1
 
 
