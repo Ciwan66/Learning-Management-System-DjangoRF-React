@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import dayjs from "dayjs";
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check";
 import apiInstance from "../utils/axios";
 function CourseDetail() {
   let { course_id } = useParams();
@@ -34,6 +34,8 @@ function CourseDetail() {
       setLoading(false);
     }
   };
+
+  
   useEffect(() => {
     GetData();
   }, []);
@@ -314,7 +316,12 @@ function CourseDetail() {
             >
               <Box sx={{ display: "felx", width: "64.5%", mb: 30 }}>
                 <Box
-                  sx={{ border: "1px solid #d1d7dc", p: 2, display: "block",pl:3 }}
+                  sx={{
+                    border: "1px solid #d1d7dc",
+                    p: 2,
+                    display: "block",
+                    pl: 3,
+                  }}
                 >
                   <Typography
                     sx={{
@@ -361,17 +368,18 @@ function CourseDetail() {
                     <Typography
                       sx={{ fontWeight: 400, fontSize: "14px", mt: 4 }}
                     >
-                      {data.sections.length} sections •  lectures • 12h 26m total length
+                      {data.sections.length} sections • lectures • 12h 26m total
+                      length
                     </Typography>
                     <Typography
                       sx={{ fontWeight: 400, fontSize: "14px", mt: 4 }}
                     >
                       Expand all sections
                     </Typography>
-                  </Box>   {data.sections.map((s,index)=>{
-                                   return   <MyAccordian section={s} />
+                  </Box>{" "}
+                  {data.sections.map((s, index) => {
+                    return <MyAccordian section={s} />;
                   })}
-                  
                   <Box sx={{ position: "relative", width: "100%" }}>
                     <Collapse in={collapsed} collapsedSize={300}>
                       <Box>
@@ -389,7 +397,6 @@ function CourseDetail() {
                                 {data.requirements}
                               </Typography>{" "}
                             </li>
-   
                           </ul>
                         </Box>
                       </Box>
@@ -401,7 +408,7 @@ function CourseDetail() {
                         </Typography>
                         <Box sx={{ mt: 2 }}>
                           <Typography sx={{ fontSize: "14px", mb: 1.5 }}>
-                           {data.description}
+                            {data.description}
                           </Typography>
                         </Box>
                       </Box>
@@ -419,7 +426,6 @@ function CourseDetail() {
                                 {data.target_audience}
                               </Typography>{" "}
                             </li>
-
                           </ul>
                         </Box>
                       </Box>

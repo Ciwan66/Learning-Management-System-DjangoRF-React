@@ -181,7 +181,7 @@ export default function Navbar({ children }) {
             }}
           >
             <Toolbar>
-              <Box sx={{ width: "6%" }}>
+              <Box sx={{ width: "95px" }}>
                 <Typography
                   variant="h5"
                   noWrap
@@ -286,6 +286,8 @@ export default function Navbar({ children }) {
                     aria-controls={menuId}
                     aria-haspopup="true"
                     color="inherit"
+                    component={Link}
+                    to='/course/cart'
                   >
                     <LocalGroceryStoreIcon />
                   </IconButton>

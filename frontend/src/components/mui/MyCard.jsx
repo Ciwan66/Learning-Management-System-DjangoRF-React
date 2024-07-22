@@ -44,14 +44,19 @@ export default function MyCard(props) {
             {author}
           </Typography>
           <Box display="flex" alignItems="center" sx={{ mb: 1 }}>
-          <Typography
+            <Typography
               variant="body2"
               color="text.primary"
               sx={{ fontWeight: 600, mr: 0.5 }}
             >
               {average_rating}
             </Typography>
-            <Rating name="read-only" value={average_rating} readOnly sx={{fontSize:"16px"}} />
+            <Rating
+              name="read-only"
+              value={average_rating}
+              readOnly
+              sx={{ fontSize: "16px" }}
+            />
 
             <Typography
               variant="body2"
@@ -61,10 +66,7 @@ export default function MyCard(props) {
               {num_ratings}
             </Typography>
           </Box>
-          <Typography
-            color="text.primary"
-            sx={{ fontWeight: 600 }}
-          >
+          <Typography color="text.primary" sx={{ fontWeight: 600 }}>
             ${price}
           </Typography>
         </CardContent>

@@ -13,6 +13,8 @@ import PrivateRoute from './utils/PrivateRoute'
 import StudentPrivateRoute from './utils/StudentPrivateRoute'
 import TeacherPrivateRoute from './utils/TeacherPrivateRoute'
 import CourseDetail from "./pages/CourseDetail";
+import Cart from "./pages/Cart";
+import { Box } from "@mui/material";
 function App() {
   const theme = createTheme({
     palette: {
@@ -27,7 +29,7 @@ function App() {
     typography: {
       "fontFamily": "arial",
       text:{
-        primary: "#2D2F31"
+        primary: "red"
       },
       button: {
         textTransform: 'none',
@@ -47,7 +49,9 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Home />} />
+          <Route path='*' element={(<Box>404 Error</Box>)} />
           <Route path="/course/detail/:course_id" element={<CourseDetail/>} />
+          <Route path="/course/cart" element={<Cart/>} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

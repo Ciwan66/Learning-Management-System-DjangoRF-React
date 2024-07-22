@@ -1,8 +1,9 @@
 import TextField from "@mui/material/TextField";
 import '../../App.css'
 import {Controller} from 'react-hook-form'
+
 export default function MyTextField(props) {
-  const {name, label , control} = props;
+  const {name, label , control ,height} = props;
   return (
     <Controller 
     name={name}
@@ -20,7 +21,9 @@ export default function MyTextField(props) {
       value={value}
       onChange={onChange}
       error={!!error}
-      sx={{width:'100%'}}
+      sx={{width:'100%',
+        '& .MuiInputBase-root':{
+        height:height}}}
       helperText={error?.message}
       />
   )}

@@ -42,3 +42,12 @@ class CourseDetailAPIView(generics.RetrieveAPIView):
         course_id = self.kwargs['course_id']
         course = api_models.Course.objects.get(id=course_id)
         return course
+    
+class CartRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = api_serializers.CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        object = api_models.Cart.objects.get(user=user)
+        return object

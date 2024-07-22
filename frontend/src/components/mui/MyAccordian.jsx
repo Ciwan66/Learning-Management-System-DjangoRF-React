@@ -7,13 +7,14 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LanguageIcon from "@mui/icons-material/Language";
 import { Box } from "@mui/material";
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 export default function MyAccordian(props) {
-    const {section} = props
-    console.log(section.lectures)
+  const { section } = props;
+  console.log(section.lectures);
   return (
     <div>
-      <Accordion sx={{border:"1px solid #d1d7dc"}}>
+      <Accordion sx={{ border: "1px solid #d1d7dc" }}>
         <AccordionSummary
           expandIcon={<ArrowDropDownIcon />}
           aria-controls="panel1-content"
@@ -23,24 +24,26 @@ export default function MyAccordian(props) {
           <Typography>{section.title}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-            {section.lectures.map((l,index)=>{
-                      return  <Box key={index} sx={{ display: "flex", alignItems: "center", mt: 2 }}>
-                        <LanguageIcon fontSize="small" />
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontSize: "13px",
-                            lineHeight: 1,
-                            ml: 2,
-                          }}
-                        >
-                          {l.title}
-                        </Typography>{" "}
-                        </Box>
-            })}
-    
-
-
+          {section.lectures.map((l, index) => {
+            return (
+              <Box
+                key={index}
+                sx={{ display: "flex", alignItems: "center", mt: 2 }}
+              >
+                <OndemandVideoIcon fontSize="small" />
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontSize: "13px",
+                    lineHeight: 1,
+                    ml: 2,
+                  }}
+                >
+                  {l.title}
+                </Typography>{" "}
+              </Box>
+            );
+          })}
         </AccordionDetails>
       </Accordion>
     </div>
