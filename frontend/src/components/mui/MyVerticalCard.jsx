@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-
-function MyVerticalCard({ course }) {
+import { Link } from "react-router-dom";
+function MyVerticalCard({ course ,removeCourse }) {
   return (
     <Card
       sx={{
@@ -16,7 +16,7 @@ function MyVerticalCard({ course }) {
         width: "100%",
       }}
     >
-      <Box sx={{ display: "flex" }}>
+      <Box component={Link} to={`/course/detail/${course.id}`} sx={{ display: "flex" ,textDecoration: 'none'}}>
         <Box>
           <CardMedia
             component="img"
@@ -33,6 +33,7 @@ function MyVerticalCard({ course }) {
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography
             gutterBottom
+            color='primary'
             sx={{
               fontWeight: "600",
               p: 0,
@@ -106,7 +107,7 @@ function MyVerticalCard({ course }) {
         >
           {" "}
           <Button
-            onClick={() => {}}
+            onClick={() => {removeCourse(course.id)}}
             disableRipple
             disableElevation
             sx={{
@@ -153,8 +154,8 @@ function MyVerticalCard({ course }) {
             </Box>
           </Button>
         </Box>
-        <Box>
-          {" "}
+        <Box component={Link} to={`/course/detail/${course.id}`} sx={{textDecoration: 'none'}}>
+        {" "}
           <Typography
             color="text.primary"
             sx={{

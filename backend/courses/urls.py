@@ -9,7 +9,10 @@ urlpatterns = [
     path('category/courses/<category_slug>/',api_views.CategoryCoursesListAPIView.as_view()),
     path('list/',api_views.CourseListAPIView.as_view()),
     path('detail/<course_id>/',api_views.CourseDetailAPIView.as_view()),
-    path('cart/',api_views.CartRetrieveAPIView.as_view()),
+    path('cart/',api_views.CartAPIView.as_view()),
+    path('guest/cart/',api_views.GuestCartListAPIViewList.as_view()),
+
+    path('cart/<course_id>',api_views.CartAPIView.as_view()),
 
 ]
 

@@ -11,7 +11,6 @@ import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 export default function MyAccordian(props) {
   const { section } = props;
-  console.log(section.lectures);
   return (
     <div>
       <Accordion sx={{ border: "1px solid #d1d7dc" }}>

@@ -1,41 +1,89 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Box, Typography, Rating } from "@mui/material";
 import UpdateIcon from "@mui/icons-material/Update";
 import LanguageIcon from "@mui/icons-material/Language";
+import IconButton from '@mui/material/IconButton';
+
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import MyAccordian from "../components/mui/MyAccordian";
 import { Collapse } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import dayjs from "dayjs";
 import CheckIcon from "@mui/icons-material/Check";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import apiInstance from "../utils/axios";
+import useAxios from "../utils/useAxios";
+import AuthContext from "../context/AuthContext";
 function CourseDetail() {
+  const { user } = useContext(AuthContext);
   let { course_id } = useParams();
   const [collapsed, setCollapsed] = useState(false);
   const [data, setData] = useState({});
+  const [inCart, setInCart] = useState(false);
   const [loading, setLoading] = useState(true);
+  const axiosInstance = useAxios();
 
-  const contentStyle = {
-    width: "66%",
-    display: "flex",
-    flexDirection: "column",
-  };
+
   const GetData = async () => {
-    try {
-      const response = await apiInstance.get(`/course/detail/${course_id}`);
-      setData(response.data);
-    } catch (error) {
-      console.error("Error fetchinh data", error);
-    } finally {
-      setLoading(false);
+    if (!user) {
+      try {
+        const response = await apiInstance.get(`/course/detail/${course_id}`);
+        setData(response.data);
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        if (cart.includes(response.data.id)) {
+          setInCart(true);
+        }
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetchinh data", error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      try {
+        const response = await axiosInstance.get(`/course/detail/${course_id}`);
+        setData(response.data);
+        console.log(response.data);
+        setInCart(response.data.in_cart);
+      } catch (error) {
+        console.error("Error fetchinh data", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+  const handleAddToCart = (course_id) => {
+    setInCart(true);
+    if (user) {
+      addToDatabaseCart(course_id);
+    } else {
+      addToLocalCart(course_id);
+    }
+  };
+  const addToLocalCart = (course_id) => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (!cart.includes(course_id)) {
+      cart.push(course_id);
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
   };
 
-  
+  const addToDatabaseCart = async (course_id) => {
+    try {
+      const response = await axiosInstance.post("/course/cart/", {
+        id: course_id,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     GetData();
   }, []);
@@ -57,7 +105,7 @@ function CourseDetail() {
               backgroundColor: "white",
               position: "absolute",
               top: "35px",
-              left: "1148px",
+              left: "61%",
               display: "flex",
               flexDirection: "column",
               boxShadow: 4,
@@ -94,19 +142,50 @@ function CourseDetail() {
                 >
                   ${data.price}{" "}
                 </Typography>{" "}
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{ mt: 2, borderRadius: "0px", height: "48px" }}
+                {inCart ? (
+                  <Button
+                    component={Link}
+                    to="/course/cart"
+                    variant="contained"
+                    color="secondary"
+                    sx={{ mt: 2, borderRadius: "0px", height: "48px" }}
+                  >
+                    Go to cart
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      handleAddToCart(data.id);
+                    }}
+                    variant="contained"
+                    color="secondary"
+                    sx={{ mt: 2, borderRadius: "0px", height: "48px" }}
+                  >
+                    Add to cart
+                  </Button>
+                )}
+                <Box sx={{ width: "100%", }}>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      mt: 1,
+                      borderRadius: "0px",
+                      height: "48px",
+                      width: user? '80%':'100%',
+                    }}
+                  >
+                    Buy now
+                  </Button>
+                  {user?(                 <IconButton
+                  aria-label="account of current user"
+                  aria-haspopup="true"
+                  sx={{border:1,borderRadius:0 ,width:"17%",ml:1,mt:1,height:"48px"}}
                 >
-                  Add to cart
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{ mt: 1, borderRadius: "0px", height: "48px" }}
-                >
-                  Buy now
-                </Button>
+                  <FavoriteBorderIcon />
+                </IconButton>):(null)}
+ 
+
+                </Box>
               </Box>
               <Typography
                 sx={{
@@ -378,7 +457,7 @@ function CourseDetail() {
                     </Typography>
                   </Box>{" "}
                   {data.sections.map((s, index) => {
-                    return <MyAccordian section={s} />;
+                    return <MyAccordian key={index} section={s} />;
                   })}
                   <Box sx={{ position: "relative", width: "100%" }}>
                     <Collapse in={collapsed} collapsedSize={300}>
