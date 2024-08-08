@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Box, Typography, Rating } from "@mui/material";
 import UpdateIcon from "@mui/icons-material/Update";
 import LanguageIcon from "@mui/icons-material/Language";
-import IconButton from '@mui/material/IconButton';
+import IconButton from "@mui/material/IconButton";
 
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
@@ -27,7 +27,6 @@ function CourseDetail() {
   const [inCart, setInCart] = useState(false);
   const [loading, setLoading] = useState(true);
   const axiosInstance = useAxios();
-
 
   const GetData = async () => {
     if (!user) {
@@ -164,27 +163,34 @@ function CourseDetail() {
                     Add to cart
                   </Button>
                 )}
-                <Box sx={{ width: "100%", }}>
+                <Box sx={{ width: "100%" }}>
                   <Button
                     variant="outlined"
                     sx={{
                       mt: 1,
                       borderRadius: "0px",
                       height: "48px",
-                      width: user? '80%':'100%',
+                      width: user ? "80%" : "100%",
                     }}
                   >
                     Buy now
                   </Button>
-                  {user?(                 <IconButton
-                  aria-label="account of current user"
-                  aria-haspopup="true"
-                  sx={{border:1,borderRadius:0 ,width:"17%",ml:1,mt:1,height:"48px"}}
-                >
-                  <FavoriteBorderIcon />
-                </IconButton>):(null)}
- 
-
+                  {user ? (
+                    <IconButton
+                      aria-label="account of current user"
+                      aria-haspopup="true"
+                      sx={{
+                        border: 1,
+                        borderRadius: 0,
+                        width: "17%",
+                        ml: 1,
+                        mt: 1,
+                        height: "48px",
+                      }}
+                    >
+                      <FavoriteBorderIcon />
+                    </IconButton>
+                  ) : null}
                 </Box>
               </Box>
               <Typography

@@ -20,7 +20,7 @@ import Button from "@mui/material/Button";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -287,14 +287,28 @@ export default function Navbar({ children }) {
                     aria-haspopup="true"
                     color="inherit"
                     component={Link}
-                    to='/course/cart'
+                    to="/course/cart"
                   >
                     <LocalGroceryStoreIcon />
                   </IconButton>
                 </Box>
                 {user ? (
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Box sx={{ mr: 3 }}>
+                    <Box sx={{}}>
+                      <IconButton
+                        size="large"
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                        color="inherit"
+                        component={Link}
+                        to="/my-courses/wishlist"
+                      >
+                        <FavoriteBorderIcon />
+                      </IconButton>
+                    </Box>
+                    <Box sx={{ mr: 3,ml:5 }}>
                       <Button
                         variant="outlined"
                         onClick={handleLogout}
@@ -346,7 +360,7 @@ export default function Navbar({ children }) {
                   </Box>
                 )}
               </Box>
-              <Box sx={{ flexGrow: 1, }} />
+              <Box sx={{ flexGrow: 1 }} />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 <IconButton
                   size="large"
@@ -356,12 +370,12 @@ export default function Navbar({ children }) {
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                   color="inherit"
-                  sx={{border:1,borderRadius:0,p:0.9}}
+                  sx={{ border: 1, borderRadius: 0, p: 0.9 }}
                 >
                   <AccountCircle />
                 </IconButton>
               </Box>
-              <Box sx={{ display: { xs: "flex", md: "none" ,} }}>
+              <Box sx={{ display: { xs: "flex", md: "none" } }}>
                 <IconButton
                   size="large"
                   aria-label="show more"

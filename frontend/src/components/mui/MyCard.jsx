@@ -8,16 +8,16 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import { Link } from "react-router-dom";
 export default function MyCard(props) {
-  const { id, title, img, average_rating, num_ratings, price, author } = props;
+  const { id, title, img, average_rating, num_ratings, price, author,maxWidth } = props;
   return (
-    <Card color="primary" variant="variant" sx={{ maxWidth: 240 }}>
+    <Card color="primary" variant="variant" sx={{ maxWidth: maxWidth }}>
       <CardActionArea component={Link} to={`/course/detail/${id}/`}>
         <CardMedia
           component="img"
-          height="160"
+          height="140"
           image="https://mui.com/static/images/cards/paella.jpg"
           alt="altimage"
-          sx={{ mb: 1 }}
+          sx={{mb: 1,border:'1px solid #dbdbdb',borderRadius:'0', boxSizing: 'border-box'}}
         />
         <CardContent sx={{ p: 0 }}>
           <Typography

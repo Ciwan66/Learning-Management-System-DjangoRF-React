@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Category ,Cart, Course , Lecture , Section , Rating , Question , Enrollment , Payment , Coupon
+from .models import Category ,Cart, Course , Wishlist,Lecture , Section , Rating , Question , Enrollment , Payment , Coupon
 CustomUser = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -47,7 +47,14 @@ class CourseListSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    courses = CourseListSerializer(many=True)
+    courses = CourseListSerializer(many=True,read_only=True)
     class Meta:
         model = Cart
         fields = ['id','courses','total_price']
+
+
+class WishlistSerializer(serializers.ModelSerializer):
+    courses = CourseListSerializer(many=True , read_only=True)
+    class Meta:
+        model = Wishlist
+        fields = ['id','courses']

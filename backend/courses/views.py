@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from rest_framework import generics 
 from rest_framework.views import APIView
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes , action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from courses import serializers as api_serializers
 from courses import models as api_models
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status ,mixins, generics
+from .permissions import IsStudent
+from rest_framework import viewsets
 
 # Create your views here.
 
@@ -61,25 +62,25 @@ class CourseDetailAPIView(generics.RetrieveAPIView):
 
         return Response(response_data,status=200)
     
-class CartAPIView(APIView):
+class CartDetailCreateAPIView(APIView):
     serializer_class = api_serializers.CartSerializer
     permission_classes = [IsAuthenticated]
     
     def get_object(self):
         user = self.request.user
-        cart = api_models.Cart.objects.get(user=user)
+        try:
+        # Try to get the cart for the user
+            cart = api_models.Cart.objects.get(user=user)
+        except api_models.Cart.DoesNotExist:
+        # If the cart does not exist, create one
+            cart = api_models.Cart.objects.create(user=user)
+
         return cart
-    
+
     def get(self, request, format=None):
         cart = self.get_object()
         serializer = self.serializer_class(cart)
         return Response(serializer.data)
-
-    def delete(self, request, course_id, format=None):
-        cart = self.get_object()
-        course = api_models.Course.objects.get(id=course_id)
-        cart.courses.remove(course)
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def post(self, request, format=None):
         cart = self.get_object()  # Assumes get_object() gets the cart for the current user/session
@@ -95,6 +96,27 @@ class CartAPIView(APIView):
         except api_models.Course.DoesNotExist:
             
             return Response({'error':'Course not found'},status=status.HTTP_404_NOT_FOUND)
+
+class CartDeleteAPIView(APIView):
+    serializer_class = api_serializers.CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        try:
+        # Try to get the cart for the user
+            cart = api_models.Cart.objects.get(user=user)
+        except api_models.Cart.DoesNotExist:
+        # If the cart does not exist, create one
+            cart = api_models.Cart.objects.create(user=user)
+
+        return cart
+    
+    def delete(self, request, course_id, format=None):
+        cart = self.get_object()
+        course = api_models.Course.objects.get(id=course_id)
+        cart.courses.remove(course)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class GuestCartListAPIViewList(APIView):
     permission_classes=[AllowAny,]
@@ -117,3 +139,48 @@ class GuestCartListAPIViewList(APIView):
             'total_price' : total_price,
         }
         return Response(response_data,status=status.HTTP_200_OK)
+    
+
+class WishlistViewSet(viewsets.GenericViewSet):
+    queryset = api_serializers.Wishlist.objects.all()
+    serializer_class = api_serializers.WishlistSerializer
+    def get_object(self):
+        user = self.request.user
+        try:
+        # Try to get the cart for the user
+            wishlist = api_models.Wishlist.objects.get(user=user)
+        except api_models.Wishlist.DoesNotExist:
+        # If the cart does not exist, create one
+            wishlist = api_models.Wishlist.objects.create(user=user)
+
+        return wishlist
+
+    @action(detail=False, methods=['get'])
+    def retrive(self, request):
+        wishlist = self.get_object()
+        serializer = self.serializer_class(wishlist)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'])
+    def add_course(self, request):
+        wishlist = self.get_object()
+        course_id = request.data.get('course_id')
+        try:
+            course = api_models.Course.objects.get(id=course_id)
+        except api_models.Course.DoesNotExist:
+            return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        wishlist.courses.add(course)
+        return Response({'detail': 'Course added to wishlist.'}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'])
+    def remove_course(self, request, pk=None):
+        wishlist = self.get_object()
+        course_id = request.data.get('course_id')
+        try:
+            course = api_models.Course.objects.get(id=course_id)
+        except api_models.Course.DoesNotExist:
+            return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        wishlist.courses.remove(course)
+        return Response({'detail': 'Course removed from wishlist.'}, status=status.HTTP_200_OK)

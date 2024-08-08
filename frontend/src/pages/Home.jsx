@@ -109,6 +109,7 @@ function Home() {
                   num_ratings={c.num_ratings}
                   price={c.price}
                   key = {index}
+                  maxWidth={240}
                 />
               ))}
             </Carousel>
