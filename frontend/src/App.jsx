@@ -12,7 +12,9 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from './utils/PrivateRoute'
 import StudentPrivateRoute from './utils/StudentPrivateRoute'
 import TeacherPrivateRoute from './utils/TeacherPrivateRoute'
+import Course from "./pages/Course";
 import CourseDetail from "./pages/CourseDetail";
+import StudentProfilePage from "./pages/StudentProfilePage";
 import Cart from "./pages/Cart";
 import MyLearnings from "./pages/MyLearnings";
 import { Box } from "@mui/material";
@@ -51,8 +53,10 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path='*' element={(<Box>404 Error</Box>)} />
-          <Route path='my-courses/learning' element={<MyLearnings/>}/>
-          <Route path='my-courses/wishlist' element={<MyLearnings/>}/>
+
+          <Route path="/my-courses/learning" element={<StudentPrivateRoute Component={MyLearnings} />} />
+          <Route path="/my-courses/wishlist" element={<StudentPrivateRoute Component={MyLearnings}/>} />
+          <Route path="/course/:course_id/watch" element={<StudentPrivateRoute Component={Course}/>} />
 
 
           <Route path="/course/detail/:course_id" element={<CourseDetail/>} />
@@ -63,10 +67,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/student" element={<StudentPrivateRoute/>}>
-          <Route index element={<StudentDashboard />} />
+          <Route path="/student/dashboard" element={<StudentPrivateRoute Component={StudentDashboard } />} />
+          <Route path="/student/profile" element={<StudentPrivateRoute Component={StudentProfilePage } />} />
 
-          </Route>
 
           <Route path="/teacher" element={""}>
             <Route index element={<TeacherDashboard />} />

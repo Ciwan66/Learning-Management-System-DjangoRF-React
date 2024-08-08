@@ -102,7 +102,7 @@ export default function Navbar({ children }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component={Link} to="/student">
+      <MenuItem onClick={handleMenuClose} component={Link} to="/student/profile">
         Profile
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>

@@ -4,7 +4,6 @@ import { Box, Typography, Rating } from "@mui/material";
 import UpdateIcon from "@mui/icons-material/Update";
 import LanguageIcon from "@mui/icons-material/Language";
 import IconButton from "@mui/material/IconButton";
-
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import MyAccordian from "../components/mui/MyAccordian";
@@ -14,8 +13,8 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import dayjs from "dayjs";
 import CheckIcon from "@mui/icons-material/Check";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
+import FavoriteBorderSharpIcon from '@mui/icons-material/FavoriteBorderSharp';
 import apiInstance from "../utils/axios";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
@@ -25,35 +24,33 @@ function CourseDetail() {
   const [collapsed, setCollapsed] = useState(false);
   const [data, setData] = useState({});
   const [inCart, setInCart] = useState(false);
+  const [inWishlist, setInWishlist] = useState(false);
   const [loading, setLoading] = useState(true);
   const axiosInstance = useAxios();
 
   const GetData = async () => {
-    if (!user) {
-      try {
-        const response = await apiInstance.get(`/course/detail/${course_id}`);
-        setData(response.data);
-        let cart = JSON.parse(localStorage.getItem("cart"));
-        if (cart.includes(response.data.id)) {
-          setInCart(true);
-        }
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetchinh data", error);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      try {
-        const response = await axiosInstance.get(`/course/detail/${course_id}`);
-        setData(response.data);
-        console.log(response.data);
+    try {
+      // Determine which API instance to use
+      const ApiInstance = user ? axiosInstance : apiInstance;
+
+      // Fetch course details
+      const response = await ApiInstance.get(`/course/detail/${course_id}`);
+      setData(response.data);
+
+      // Handle cart and wishlist status
+      if (user) {
         setInCart(response.data.in_cart);
-      } catch (error) {
-        console.error("Error fetchinh data", error);
-      } finally {
-        setLoading(false);
+        setInWishlist(response.data.in_wishlist);
+      } else {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        setInCart(cart.includes(response.data.id));
       }
+      
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching data", error);
+    } finally {
+      setLoading(false);
     }
   };
   const handleAddToCart = (course_id) => {
@@ -83,6 +80,29 @@ function CourseDetail() {
     }
   };
 
+  const addCourseToWishlist = (course_id)=>{
+    try{
+      response = axiosInstance.post('course/wishlist/add_course/',{
+        course_id:course_id
+      })
+    }catch(error){
+      console.error(error)
+    }finally{
+      setInWishlist(true)
+    }
+  }
+  const removeCourseFromWishlist=(course_id)=>{
+    try{
+          reponse = axiosInstance.post(`course/wishlist/remove_course/`,{
+      "course_id":course_id
+    })
+    } catch(error){
+      console.error(error);
+    } finally {
+      setInWishlist(false)
+
+    }
+  }
   useEffect(() => {
     GetData();
   }, []);
@@ -175,10 +195,10 @@ function CourseDetail() {
                   >
                     Buy now
                   </Button>
-                  {user ? (
-                    <IconButton
+                  {user ? inWishlist?                    <IconButton
                       aria-label="account of current user"
                       aria-haspopup="true"
+                      onClick={()=>{removeCourseFromWishlist(course_id)}}
                       sx={{
                         border: 1,
                         borderRadius: 0,
@@ -188,9 +208,24 @@ function CourseDetail() {
                         height: "48px",
                       }}
                     >
-                      <FavoriteBorderIcon />
+                      <FavoriteSharpIcon />
+                    </IconButton>:<IconButton
+                      aria-label="account of current user"
+                      aria-haspopup="true"
+                      onClick={()=>{addCourseToWishlist(course_id)}}
+                      sx={{
+                        border: 1,
+                        borderRadius: 0,
+                        width: "17%",
+                        ml: 1,
+                        mt: 1,
+                        height: "48px",
+                      }}
+                    >
+                      <FavoriteBorderSharpIcon />
                     </IconButton>
-                  ) : null}
+
+                   : null}
                 </Box>
               </Box>
               <Typography

@@ -56,7 +56,9 @@ class CourseDetailAPIView(generics.RetrieveAPIView):
         if request.user.is_authenticated:
             user = request.user
             cart, created = api_models.Cart.objects.get_or_create(user=user)
+            wishlist, created = api_models.Wishlist.objects.get_or_create(user=user)
             response_data['in_cart'] = cart.courses.filter(id=course.id).exists()
+            response_data['in_wishlist'] = wishlist.courses.filter(id=course.id).exists()
         else:
             response_data['in_cart'] = False
 
