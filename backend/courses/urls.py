@@ -20,6 +20,3 @@ urlpatterns = [
 
 ]
 
-# Only add static URLs in development mode
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

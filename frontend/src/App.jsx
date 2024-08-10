@@ -17,6 +17,8 @@ import CourseDetail from "./pages/CourseDetail";
 import StudentProfilePage from "./pages/StudentProfilePage";
 import Cart from "./pages/Cart";
 import MyLearnings from "./pages/MyLearnings";
+import CourseReviews from "./components/CourseReviews";
+import CourseOverview from "./components/CourseOverview";
 import { Box } from "@mui/material";
 function App() {
   const theme = createTheme({
@@ -56,7 +58,11 @@ function App() {
 
           <Route path="/my-courses/learning" element={<StudentPrivateRoute Component={MyLearnings} />} />
           <Route path="/my-courses/wishlist" element={<StudentPrivateRoute Component={MyLearnings}/>} />
-          <Route path="/course/:course_id/watch" element={<StudentPrivateRoute Component={Course}/>} />
+
+
+          
+          <Route path="/course/:course_id/watch/lecture/:lecture_id/" element={<StudentPrivateRoute Component={Course}/>} />
+   
 
 
           <Route path="/course/detail/:course_id" element={<CourseDetail/>} />
@@ -66,7 +72,7 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
+          
           <Route path="/student/dashboard" element={<StudentPrivateRoute Component={StudentDashboard } />} />
           <Route path="/student/profile" element={<StudentPrivateRoute Component={StudentProfilePage } />} />
 

@@ -173,7 +173,7 @@ export default function Navbar({ children }) {
             sx={{
               color: "black",
               backgroundColor: "#FFF",
-              boxShadow: 4,
+              boxShadow: 2,
               height: "70px",
               display: "flex",
               justifyContent: "center",
