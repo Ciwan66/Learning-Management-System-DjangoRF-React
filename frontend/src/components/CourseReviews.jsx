@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
 
-function CourseReviews() {
+function CourseReviews(props) {
+  const { courseId } = props
   return (
-    <div>CourseReviews</div>
-  )
+    <>
+      <div>CourseReviews</div>
+      {courseId}
+    </>
+  );
 }
 
-export default CourseReviews
+export default CourseReviews;

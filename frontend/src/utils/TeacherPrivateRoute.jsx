@@ -2,18 +2,20 @@ import { useContext } from "react";
 import { Outlet, Navigate } from 'react-router-dom';
 import AuthContext from "../context/AuthContext";
 
-const TeacherPrivateRoute = () => {
+const StudentPrivateRoute = ({ Component }) => {
   const { user } = useContext(AuthContext);
-
   if (!user) {
+
     return <Navigate to="/login" replace />;
+
   }
 
   if (!user.is_teacher) {
+
     return <Navigate to="/student" replace />;
   }
 
-  return <Outlet />;
+  return<Component />;
 };
 
-export default TeacherPrivateRoute;
+export default StudentPrivateRoute;

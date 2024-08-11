@@ -16,7 +16,7 @@ urlpatterns = [
     path('guest/cart/',api_views.GuestCartListAPIViewList.as_view()),
     path('cart/',api_views.CartDetailCreateAPIView.as_view()),
     path('cart/<course_id>',api_views.CartDeleteAPIView.as_view()),
-    # path('wishlist/',api_views.WishlistDetailAPIView.as_view()),
+    path('teacher/courses',api_views.TeacgerCoursesListAPIView.as_view()),
 
 ]
 

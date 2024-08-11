@@ -37,6 +37,14 @@ class CourseListAPIView(generics.ListAPIView):
         qureyset = api_models.Course.objects.all()
         return qureyset
     
+class TeacgerCoursesListAPIView(generics.ListAPIView):
+    serializer_class = api_serializers.CourseListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        qureyset = api_models.Course.objects.filter(author=self.request.user)
+        return qureyset
+    
 class CourseDetailAPIView(generics.RetrieveAPIView):
     serializer_class = api_serializers.CourseDetailSerializer
     permission_classes = [AllowAny]

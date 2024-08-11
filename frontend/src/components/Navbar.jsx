@@ -20,7 +20,7 @@ import Button from "@mui/material/Button";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -102,7 +102,11 @@ export default function Navbar({ children }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} component={Link} to="/student/profile">
+      <MenuItem
+        onClick={handleMenuClose}
+        component={Link}
+        to="/student/profile"
+      >
         Profile
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
@@ -157,6 +161,30 @@ export default function Navbar({ children }) {
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Login</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Sign Up</p>
       </MenuItem>
     </Menu>
   );
@@ -251,7 +279,7 @@ export default function Navbar({ children }) {
 
               <Box
                 sx={{
-                  display: "flex",
+                  display: { xs: "none", md: "flex" },
                   alignItems: "center",
                   width: "30%",
                   justifyContent: "space-between",
@@ -308,7 +336,7 @@ export default function Navbar({ children }) {
                         <FavoriteBorderIcon />
                       </IconButton>
                     </Box>
-                    <Box sx={{ mr: 3,ml:5 }}>
+                    <Box sx={{ mr: 3, ml: 5 }}>
                       <Button
                         variant="outlined"
                         onClick={handleLogout}

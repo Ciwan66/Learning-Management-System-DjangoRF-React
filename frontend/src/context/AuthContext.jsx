@@ -39,7 +39,13 @@ export const AuthProvider =({ children })=> {
       setAuthTokens(data);
       setUser(jwtDecode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
-      navigate("/");
+      let user = jwtDecode(data.access)
+      if(user.is_teacher){
+        navigate("/teacher/dashboard")
+      }else{
+        navigate("/");
+
+      }
     } else {
       console.log(response.status);
       console.log("there was a server issue");
