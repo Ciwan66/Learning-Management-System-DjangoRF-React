@@ -7,7 +7,7 @@ import AuthContext from '../context/AuthContext'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 const useAxios = ()=>{
-    const {setUser , authTokens, setAuthTokens} = useContext(AuthContext)
+    const {setUser , authTokens, setAuthTokens,user} = useContext(AuthContext)
 
     const axiosInstance  = axios.create({
         baseURL: baseURL,
@@ -32,7 +32,21 @@ const useAxios = ()=>{
         return req
 
     })
-    return axiosInstance
+    const apiInstance = axios.create({
+        // Set the base URL for this instance. All requests made using this instance will have this URL as their starting point.
+        baseURL: 'http://127.0.0.1:8000/api',
+    
+        // Set a timeout for requests made using this instance. If a request takes longer than 5 seconds to complete, it will be canceled.
+        timeout: 5000, // timeout after 5 seconds
+    
+        // Define headers that will be included in every request made using this instance. This is common for specifying the content type and accepted response type.
+        headers: {
+            'Content-Type': 'application/json', // The request will be sending data in JSON format.
+            Accept: 'application/json', // The request expects a response in JSON format.
+        },
+    });
+    
+    return user ? axios : apiInstance 
 }
 
 export default useAxios

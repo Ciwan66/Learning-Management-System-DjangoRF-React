@@ -29,3 +29,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create_user(**validated_data)
 
         return user
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id','first_name','last_name','profile_picture','bio']

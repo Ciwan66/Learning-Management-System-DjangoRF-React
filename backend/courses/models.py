@@ -141,22 +141,3 @@ class Enrollment(models.Model):
     def __str__(self):
         return f'{self.user} enrolled in {self.course}'
     
-class Cart(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    courses = models.ManyToManyField(Course)
-
-    @property
-    def total_price(self):
-        return sum(course.price for course in self.courses.all())
-
-    def __str__(self):
-        return f'Cart of {self.user}'
-    
-class Wishlist(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    courses = models.ManyToManyField(Course)
-
-    def __str__(self):
-        return f'Wishlist of {self.user}'

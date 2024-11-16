@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     ##
     'users',
     'courses',
+    'carts',
+    'orders',
+    'teachers',
 
 ]
 
@@ -140,7 +143,14 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
 }
+SESSION_COOKIE_AGE = 1209600
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'API documentation for your project',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=50),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=50),

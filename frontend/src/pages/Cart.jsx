@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import MyTextfield from "../components/mui/MyTextField";
 import MyVerticalCard from "../components/mui/MyVerticalCard";
 import { useForm } from "react-hook-form";
-import apiInstance from "../utils/axios";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
 function Cart() {
@@ -22,37 +21,8 @@ function Cart() {
     console.log(data);
   };
   const GetData = async () => {
-    setloading(true);
 
-    if (user) {
-      try {
-        const response = await axiosInstance.get("course/cart/");
-        console.log(response.data);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data", error);
-      } finally {
-        setloading(false);
-      }
-    } else {
-      let cart = localStorage.getItem("cart");
-      console.log(cart);
-      if (cart && cart !== "[]") {
-        try {
-          const response = await apiInstance.post("course/guest/cart/", {
-            id: JSON.parse(cart),
-          });
-          console.log(response.data);
-          setData(response.data);
-        } catch (error) {
-          console.error("Error fetching data", error);
-        } finally {
-          setloading(false);
-        }
-      } else {
-        setData(); // Set data to an empty array if the cart is empty
-        setloading(false);
-      }
+   
     }
   };
 
@@ -65,13 +35,7 @@ function Cart() {
   };
 
   const RemoveCourseFromLocalstorageCart = (course_id) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (cart.includes(course_id)) {
-      cart = cart.filter((id) => id !== course_id);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      GetData(); // Call GetData to refresh the data
 
-    }
   }
 
   const RemoveCourseFromDatabaseCart = async (course_id) => {
