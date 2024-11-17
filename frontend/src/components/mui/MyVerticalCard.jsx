@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import CardMedia from "@mui/material/CardMedia";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
@@ -6,7 +6,8 @@ import { Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-function MyVerticalCard({ course ,removeCourse }) {
+function MyVerticalCard({ item ,removeCourse , moveCourseToWishlist }) {
+  const course = item.course;
   return (
     <Card
       sx={{
@@ -107,7 +108,7 @@ function MyVerticalCard({ course ,removeCourse }) {
         >
           {" "}
           <Button
-            onClick={() => {removeCourse(course.id)}}
+            onClick={() => {removeCourse(item.id)}}
             disableRipple
             disableElevation
             sx={{
@@ -131,7 +132,7 @@ function MyVerticalCard({ course ,removeCourse }) {
             </Box>
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={() => {moveCourseToWishlist(course.id,item.id)}}
             disableRipple
             disableElevation
             sx={{

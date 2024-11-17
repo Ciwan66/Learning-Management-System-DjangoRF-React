@@ -7,14 +7,15 @@
 .container {
     display: flex;
     position: relative;
-
 }
-
 main {
     width: 100%;
     display: flex;
-    justify-content: center;
-    padding-top: 80px;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Add some padding */
+    margin-left: 60px; /* Adjust for sidebar */
+    transition: margin-left 0.5s; /* Smooth transition when sidebar expands */
 }
 
 .sidebar {
@@ -24,11 +25,10 @@ main {
     width: 60px; /* Initial collapsed width */
     transition: width 0.5s, padding 0.5s;
     overflow: hidden;
-    position: fixed; /* Fixed positioning to overlap content */
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 1000; /* Ensure it is above other content */
-    overflow: hidden;
 }
 
 .sidebar.open {
@@ -94,4 +94,54 @@ main {
 
 .sidebar.open .link_text {
     opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 50px; /* Smaller width for mobile */
+    }
+
+    .sidebar.open {
+        width: 70%; /* Full width when expanded on mobile */
+    }
+
+    .bars.shift {
+        margin-left: 20px; /* Adjust alignment on smaller screens */
+    }
+
+    .link {
+        gap: 10px; /* Reduce gap between icon and text */
+        padding: 15px 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .link_text {
+        font-size: 16px; /* Smaller text for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 40px; /* Even smaller width for very small screens */
+    }
+
+    .sidebar.open {
+        width: 80%; /* Almost full width when expanded */
+    }
+
+    .link_text {
+        font-size: 14px;
+    }
+
+    .bars.shift {
+        margin-left: 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
 }

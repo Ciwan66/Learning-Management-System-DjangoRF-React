@@ -9,10 +9,10 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import MyCard from "../components/mui/MyCard";
 import useAxios from "../utils/useAxios";
-import apiInstance from "../utils/axios";
 
 function Home() {
   const axiosInstance = useAxios();
+  const [loading,setLoading] = useState(true)
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -31,20 +31,28 @@ function Home() {
     },
   };
   const [courses, setCourses] = useState([]);
+    const { user } = useContext(AuthContext);
+
   const GetData = async () => {
+    setLoading(true)
     try {
-      const response = await apiInstance.get("/course/list/");
+      const response = await axiosInstance.get("/course/list/");
       console.log(response);
       setCourses(response.data);
     } catch(error){
       console.error("Error fetching data:", error)
     }
+    setLoading(false)
 
   };
   useEffect(() => {
     GetData();
   }, []);
-  const { user } = useContext(AuthContext);
+  if(loading){
+    return (<>Loading..</>)  
+  }
+  
+  
   return (
     <Box sx={{display: "flex", justifyContent: "center"}}>
 

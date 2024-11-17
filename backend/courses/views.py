@@ -4,11 +4,12 @@ from rest_framework.decorators import permission_classes , action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from courses import serializers as api_serializers
 from courses import models as api_models
+from carts.models import Cart,CartItem , Wishlist ,WishlistItem
 from rest_framework.response import Response
 from rest_framework import status ,mixins, generics
 from .permissions import IsStudent
 from rest_framework import viewsets
-
+from carts.services import get_cart
 # Create your views here.
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -63,10 +64,10 @@ class CourseDetailAPIView(generics.RetrieveAPIView):
 
         if request.user.is_authenticated:
             user = request.user
-            cart, created = api_models.Cart.objects.get_or_create(user=user)
-            wishlist, created = api_models.Wishlist.objects.get_or_create(user=user)
-            response_data['in_cart'] = cart.courses.filter(id=course.id).exists()
-            response_data['in_wishlist'] = wishlist.courses.filter(id=course.id).exists()
+            cart = get_cart(request)
+            wishlist, created = Wishlist.objects.get_or_create(user=user)
+            response_data['in_cart'] = CartItem.objects.filter(cart=cart,course__id=course.id).exists()
+            response_data['in_wishlist'] = WishlistItem.objects.filter(wishlist=wishlist ,course__id=course.id).exists()
         else:
             response_data['in_cart'] = False
 

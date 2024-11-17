@@ -15,9 +15,9 @@ import dayjs from "dayjs";
 import CheckIcon from "@mui/icons-material/Check";
 import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
 import FavoriteBorderSharpIcon from '@mui/icons-material/FavoriteBorderSharp';
-import apiInstance from "../utils/axios";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 function CourseDetail() {
   const { user } = useContext(AuthContext);
   let { course_id } = useParams();
@@ -27,25 +27,19 @@ function CourseDetail() {
   const [inWishlist, setInWishlist] = useState(false);
   const [loading, setLoading] = useState(true);
   const axiosInstance = useAxios();
+  const {addCourseToCart,removeCourseFromCart,addCourseToWishlist,removeCourseFromWishlist } = useCart()
 
   const GetData = async () => {
     try {
       // Determine which API instance to use
-      const ApiInstance = user ? axiosInstance : apiInstance;
-
       // Fetch course details
-      const response = await ApiInstance.get(`/course/detail/${course_id}`);
+      const response = await axiosInstance.get(`/course/detail/${course_id}`);
       setData(response.data);
+      console.log(response.data)
 
       // Handle cart and wishlist status
-      if (user) {
-        setInCart(response.data.in_cart);
-        setInWishlist(response.data.in_wishlist);
-      } else {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        setInCart(cart.includes(response.data.id));
-      }
-      
+      setInCart(response.data.in_cart);
+      setInWishlist(response.data.in_wishlist);
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching data", error);
@@ -53,56 +47,23 @@ function CourseDetail() {
       setLoading(false);
     }
   };
-  const handleAddToCart = (course_id) => {
-    setInCart(true);
-    if (user) {
-      addToDatabaseCart(course_id);
-    } else {
-      addToLocalCart(course_id);
-    }
-  };
-  const addToLocalCart = (course_id) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (!cart.includes(course_id)) {
-      cart.push(course_id);
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
+  const handleAddToCart = async (course_id) => {
+    addCourseToCart(course_id)
+    GetData()
   };
 
-  const addToDatabaseCart = async (course_id) => {
-    try {
-      const response = await axiosInstance.post("/course/cart/", {
-        id: course_id,
-      });
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
+  const handleAddToWishlist = async (course_id) => {
+    addCourseToWishlist(course_id)
+    GetData()
+
+  };
+  const handleRemoveFromWishlist = async (item_id) => {
+    // removeCourseFromWishlist(course_id)
+    // GetData()
+    nav
   };
 
-  const addCourseToWishlist = (course_id)=>{
-    try{
-      response = axiosInstance.post('course/wishlist/add_course/',{
-        course_id:course_id
-      })
-    }catch(error){
-      console.error(error)
-    }finally{
-      setInWishlist(true)
-    }
-  }
-  const removeCourseFromWishlist=(course_id)=>{
-    try{
-          reponse = axiosInstance.post(`course/wishlist/remove_course/`,{
-      "course_id":course_id
-    })
-    } catch(error){
-      console.error(error);
-    } finally {
-      setInWishlist(false)
 
-    }
-  }
   useEffect(() => {
     GetData();
   }, []);
@@ -198,8 +159,8 @@ function CourseDetail() {
                   {user ? inWishlist?                    <IconButton
                       aria-label="account of current user"
                       aria-haspopup="true"
-                      onClick={()=>{removeCourseFromWishlist(course_id)}}
-                      sx={{
+                      component={Link}
+                      to="/my-courses/wishlist"                      sx={{
                         border: 1,
                         borderRadius: 0,
                         width: "17%",
@@ -212,7 +173,7 @@ function CourseDetail() {
                     </IconButton>:<IconButton
                       aria-label="account of current user"
                       aria-haspopup="true"
-                      onClick={()=>{addCourseToWishlist(course_id)}}
+                      onClick={()=>{handleAddToWishlist(course_id)}}
                       sx={{
                         border: 1,
                         borderRadius: 0,

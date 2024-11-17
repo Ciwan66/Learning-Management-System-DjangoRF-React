@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 // RRD
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 // Axios
 import useAxios from "../utils/useAxios";
 // MUI
@@ -13,6 +14,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import FavoriteSharpIcon from '@mui/icons-material/FavoriteSharp';
+import { useCart } from "../context/CartContext";
+
 //components
 import MyCard from "../components/mui/MyCard";
 function MyLearnings() {
@@ -22,6 +25,7 @@ function MyLearnings() {
   const [value, setValue] = React.useState(path);
   const [loading, setloading] = useState(true);
   let navigate = useNavigate();
+  const {removeCourseFromWishlist} = useCart()
   const [data, SetData] = useState();
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,7 +33,7 @@ function MyLearnings() {
   };
   const GetData = async () => {
     try {
-      const response = await axiosInstance.get("course/wishlist/retrive");
+      const response = await axiosInstance.get("cart/test2");
       console.log(response.data);
       SetData(response.data);
     } catch (error) {
@@ -38,16 +42,9 @@ function MyLearnings() {
       setloading(false);
     }
   };
-  const RemoveCourseFromWishlist=(course_id)=>{
-    try{
-          reponse = axiosInstance.post(`course/wishlist/remove_course/`,{
-      "course_id":course_id
-    })
-    } catch(error){
-      console.error(error);
-    } finally {
-      GetData();
-    }
+  const handleRemoveCourseFromWishlist= async (item_id)=>{
+    await removeCourseFromWishlist(item_id)
+    GetData();
   }
   useEffect(() => {
     GetData();
@@ -59,7 +56,7 @@ function MyLearnings() {
       ) : (
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2.0 }}>
           {" "}
-          {data.courses?.map((c, index) => (
+          {data.items?.map((item, index) => (
                     <Box
                     key={index}
                     position="relative"
@@ -74,7 +71,7 @@ function MyLearnings() {
                       right={8} // Adjust right to fit your design
                       zIndex={1} // Ensure the button is on top
                     >
-                      <IconButton aria-label="fav" onClick={()=>{RemoveCourseFromWishlist(c.id)}}>
+                      <IconButton aria-label="fav" onClick={()=>{handleRemoveCourseFromWishlist(item.id)}}>
                         <FavoriteSharpIcon />
                       </IconButton>
                     </Box>
@@ -82,13 +79,13 @@ function MyLearnings() {
                     {/* MyCard component */}
                     <Box>
                       <MyCard
-                        title={c.title}
-                        author={`${c.author.first_name} ${c.author.last_name}`}
-                        img={c.img}
-                        id={c.id}
-                        average_rating={c.average_rating}
-                        num_ratings={c.num_ratings}
-                        price={c.price}
+                        title={item.course.title}
+                        author={`${item.course.author.first_name} ${item.course.author.last_name}`}
+                        img={item.course.img}
+                        id={item.course.id}
+                        average_rating={item.course.average_rating}
+                        num_ratings={item.course.num_ratings}
+                        price={item.course.price}
                         maxWidth={240}
                       />
                     </Box>

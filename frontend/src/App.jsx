@@ -21,6 +21,8 @@ import CourseReviews from "./components/CourseReviews";
 import CourseOverview from "./components/CourseOverview";
 import Sidebar from "./components/Sidebar";
 import { Box } from "@mui/material";
+import { CartProvider } from "./context/CartContext";
+import CourseCreationPage from "./pages/teacher/course/CourseCreationPage";
 function App() {
   const theme = createTheme({
     palette: {
@@ -48,6 +50,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <AuthProvider>
+          <CartProvider>
           <Routes>
             <Route
               path="/"
@@ -95,8 +98,10 @@ function App() {
               <Route index element={<TeacherDashboard />} />
               <Route path="dashboard" element={<TeacherDashboard />} />
               <Route path="courses" element={<TeacherCourseAdd />} />
+              <Route path="courses/add" element={<CourseCreationPage />} />
             </Route>
           </Routes>
+          </CartProvider>
         </AuthProvider>
       </ThemeProvider>
     </>

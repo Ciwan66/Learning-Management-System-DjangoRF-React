@@ -126,6 +126,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 AUTH_USER_MODEL = "users.CustomUser"
+CORS_ALLOW_CREDENTIALS = True
+# Set cookie settings in Django
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True  # Ensure cookies are sent over HTTPS
 
 STATIC_URL = 'static/'
 

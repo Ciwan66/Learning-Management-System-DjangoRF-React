@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext ,useCallback } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import Divider from "@mui/material/Divider";
@@ -10,45 +10,40 @@ import MyVerticalCard from "../components/mui/MyVerticalCard";
 import { useForm } from "react-hook-form";
 import useAxios from "../utils/useAxios";
 import AuthContext from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 function Cart() {
   const { handleSubmit, control } = useForm();
+  const axiosInstance = useAxios()
   const { user } = useContext(AuthContext);
-  const axiosInstance = useAxios();
-  const [data, setData] = useState();
+  const { removeCourseFromCart , addCourseToWishlist } = useCart();
   const [loading, setloading] = useState(true);
+  const [cart, setCart] = useState([]);
 
-  const submitForm = (data) => {
-    console.log(data);
-  };
-  const GetData = async () => {
-
-   
-    }
+  const submitForm = (cart) => {
+    console.log(cart);
   };
 
-  const handleRemoveCourse = (course_id) => {
-    if (user) {
-      RemoveCourseFromDatabaseCart(course_id);
-    } else {
-      RemoveCourseFromLocalstorageCart(course_id);
-    }
-  };
-
-  const RemoveCourseFromLocalstorageCart = (course_id) => {
-
-  }
-
-  const RemoveCourseFromDatabaseCart = async (course_id) => {
+  const getData = async () => {
+    setloading(true);
     try {
-      const response = await axiosInstance.delete(`course/cart/${course_id}`);
-      GetData();
+      const response = await axiosInstance.get("/cart/test/");
+      setCart(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setloading(false);
     }
   };
-
+  const handleRemoveCourseFromCart = async (item_id) => {
+    await removeCourseFromCart(item_id);
+    getData();
+  };
+  const handoleMoveToWishlist = async (course_id,item_id) => {
+    await addCourseToWishlist(course_id)
+    await handleRemoveCourseFromCart(item_id)
+  }
   useEffect(() => {
-    GetData();
+    getData();
   }, []);
 
   return (
@@ -93,7 +88,7 @@ function Cart() {
                   mr: { xs: "20px", md: "58px" },
                 }}
               >
-                {data ? (
+                {cart ? (
                   <>
                     <Box sx={{ width: { xs: "100%", md: "70.5%" } }}>
                       <Typography
@@ -106,18 +101,19 @@ function Cart() {
                           color: "#2d2f31",
                         }}
                       >
-                        {data.courses.length} Courses in Cart
+                        {cart.items.length} Courses in Cart
                       </Typography>
                       <List>
-                        {data.courses.map((c, index) => {
+                        {cart.items.map((item, index) => {
                           return (
                             <Box key={index}>
                               <Divider sx={{ mb: 1 }} />
 
                               <ListItem sx={{ alignItems: "start", pr: 0 }}>
                                 <MyVerticalCard
-                                  course={c}
-                                  removeCourse={handleRemoveCourse}
+                                  item={item}
+                                  removeCourse={handleRemoveCourseFromCart}
+                                  moveCourseToWishlist={handoleMoveToWishlist}
                                 />
                               </ListItem>
                             </Box>
@@ -151,7 +147,7 @@ function Cart() {
                           lineHeight: 1,
                         }}
                       >
-                        ${data.total_price}
+                        ${"9999"}
                       </Typography>
                       <Button
                         variant="contained"
