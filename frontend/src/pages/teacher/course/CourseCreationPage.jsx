@@ -1,17 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-
+import { useNavigate } from 'react-router-dom'
+import useAxios from '../../../utils/useAxios'
 export default function CourseCreationPage() {
   const [step, setStep] = useState(1)
+  const navigate = useNavigate()
+  const axiosInstance = useAxios()
   const [courseData, setCourseData] = useState({
     title: '',
     subtitle: '',
     category: '',
     description: '',
-    targetAudience: '',
+    target_audience: '',
     price: '',
-    image: null,
+    img: null,
     objectives: [''],
     requirements: '',
     sections: [{ title: '', description: '', lectures: [{ title: '', video: null }] }]
@@ -23,7 +26,7 @@ export default function CourseCreationPage() {
   }
 
   const handleImageUpload = (e) => {
-    setCourseData({ ...courseData, image: e.target.files[0] })
+    setCourseData({ ...courseData, img: e.target.files[0] })
   }
 
   const handleObjectiveChange = (index, value) => {
@@ -63,8 +66,14 @@ export default function CourseCreationPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Submitting course data:', courseData)
-    // Here you would typically send the courseData to your backend
+    try {
+      const response = axiosInstance.post('/course/create/',courseData)
+      console.log(response.data)
+    } catch (error) {
+      console.error(error)
+    }finally{
+      navigate('/teacher/courses')
+    }
   }
 
   const renderStep1 = () => (
@@ -107,9 +116,9 @@ export default function CourseCreationPage() {
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="">Select Category</option>
-            <option value="programming">Programming</option>
-            <option value="design">Design</option>
-            <option value="business">Business</option>
+            <option value="bbb">Programming</option>
+            <option value="bbb">Design</option>
+            <option value="bbb">Business</option>
           </select>
         </div>
         <div>
@@ -145,11 +154,11 @@ export default function CourseCreationPage() {
         />
       </div>
       <div>
-        <label htmlFor="targetAudience" className="block text-sm font-medium text-gray-700">Target Audience</label>
+        <label htmlFor="target_audience" className="block text-sm font-medium text-gray-700">Target Audience</label>
         <textarea
-          id="targetAudience"
-          name="targetAudience"
-          value={courseData.targetAudience}
+          id="target_audience"
+          name="target_audience"
+          value={courseData.target_audience}
           onChange={handleInputChange}
           placeholder="Describe your target audience"
           rows={3}
@@ -345,7 +354,7 @@ export default function CourseCreationPage() {
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Target Audience</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{courseData.targetAudience}</dd>
+              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{courseData.target_audience}</dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Price</dt>
@@ -354,7 +363,7 @@ export default function CourseCreationPage() {
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">Course Image</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {courseData.image ? courseData.image.name : 'Not uploaded'}
+                {courseData.img ? courseData.img.name : 'Not uploaded'}
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

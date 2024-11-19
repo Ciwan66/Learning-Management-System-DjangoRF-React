@@ -7,7 +7,7 @@ from courses import models as api_models
 from carts.models import Cart,CartItem , Wishlist ,WishlistItem
 from rest_framework.response import Response
 from rest_framework import status ,mixins, generics
-from .permissions import IsStudent
+from .permissions import IsStudent , IsTeacher
 from rest_framework import viewsets
 from carts.services import get_cart
 # Create your views here.
@@ -73,3 +73,22 @@ class CourseDetailAPIView(generics.RetrieveAPIView):
 
         return Response(response_data,status=200)
     
+class CourseCreateAPIView(APIView):
+    serializer_class = api_serializers.CourseDetailSerializer
+    permission_classes=[IsTeacher]
+    def post(self ,request):
+        user = request.user
+
+        category_slug = request.data.pop('category')
+        category = api_models.Category.objects.get(slug = category_slug)
+
+        sections = request.data.pop('sections')
+
+        course_serializered = api_serializers.CourseDetailSerializer(data=request.data)
+        course_serializered.is_valid(raise_exception=True)
+        course = course_serializered.save(category=category,author = user)
+
+        sections_serializered = api_serializers.SectionSerializer(data= sections ,many =True)
+        sections_serializered.is_valid(raise_exception=True)
+        sec = sections_serializered.save(course=course)
+        return Response({'msg': course_serializered.data})

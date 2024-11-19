@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import useAxios from "../utils/useAxios";
 import TeacherVerticalCard from '../components/mui/TeacherVerticalCard'
@@ -7,6 +8,7 @@ function TeacherCourseAdd() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const  axiosInstance  = useAxios();
+  const navigate = useNavigate()
   const GetData = async () => {
     try {
       const response = await axiosInstance.get("/course/teacher/courses");
@@ -66,6 +68,7 @@ function TeacherCourseAdd() {
         <Button
           variant="contained"
           color="secondary"
+          onClick={()=>{navigate('/teacher/courses/add')}}
           sx={{
             borderRadius: "0px",
             height: "48px",

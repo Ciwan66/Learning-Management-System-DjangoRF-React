@@ -10,27 +10,49 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['title','slug']
+        extra_kwargs = {
+            'title' : {'read_only':True}
+        }
 
 class LectureSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Lecture
         fields = '__all__'
+        extra_kwargs = {
+            'section' : {'read_only':True}
+        }
 
 class SectionSerializer(serializers.ModelSerializer):
     lectures = LectureSerializer(many=True)
     class Meta:
         model = Section
         fields = '__all__'
-
+        extra_kwargs = {
+            'course' : {'read_only':True}
+        }
+    def create(self, validated_data):
+        lectures = validated_data.pop('lectures')
+        section = super().create(validated_data)
+        lectures_serailizered = LectureSerializer(data=lectures,many=True)
+        lectures_serailizered.is_valid(raise_exception=True)
+        lectures_serailizered.save(section=section)
+        return section
 
 class CourseDetailSerializer(serializers.ModelSerializer):
-    sections = SectionSerializer(many=True)
-    author = CustomUserSerializer()
+    sections = SectionSerializer(many=True , read_only= True)
+    author = CustomUserSerializer(read_only= True)
+    category = CategorySerializer(read_only= True)
     class Meta:
         model = Course
         fields = '__all__'
-        depth = 1
+        extra_kwargs = {
+            'id':{'read_only':True},
+            'published':{'read_only':True},
+            'last_update':{'read_only':True},
+            'average_rating':{'read_only':True},
+            'num_ratings':{'read_only':True},
+        }
 
 
 

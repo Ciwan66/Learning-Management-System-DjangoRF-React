@@ -9,7 +9,12 @@ class IsStudent(permissions.BasePermission):
             return request.user.is_student
         else:
             return False
-
+class IsTeacher(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.uesr.is_authenticated :
+            return request.user.is_teacher
+        else:
+            return False
 
 
 

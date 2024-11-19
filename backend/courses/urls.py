@@ -11,6 +11,7 @@ urlpatterns = [
     path('category/list/',api_views.CategoryListAPIView.as_view()),
     path('category/courses/<category_slug>/',api_views.CategoryCoursesListAPIView.as_view()),
     path('list/',api_views.CourseListAPIView.as_view()),
+    path('create/',api_views.CourseCreateAPIView.as_view()),
     path('detail/<course_id>/',api_views.CourseDetailAPIView.as_view()),
     path('teacher/courses',api_views.TeacgerCoursesListAPIView.as_view()),
 
